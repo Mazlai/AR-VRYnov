@@ -9,6 +9,10 @@ public class MenuVR : MonoBehaviour
     public Button boutonJouer;
     public Button boutonQuitter;
 
+    [Header("Références XR (Meta)")]
+    public GameObject ovrInteractionComprehensive; // Le prefab OVRInteractionComprehensive
+    public GameObject locomotor;
+
     void Start()
     {
         // Assure que le menu est visible et le texte caché au départ
@@ -17,6 +21,9 @@ public class MenuVR : MonoBehaviour
 
         if (welcomeText != null)
             welcomeText.SetActive(false);
+
+        // Désactivation des interactions XR au lancement
+        ToggleXRInteractions(false);
 
         // Assigne les fonctions aux boutons
         if (boutonJouer != null)
@@ -46,6 +53,9 @@ public class MenuVR : MonoBehaviour
                 animator.Play(animator.GetCurrentAnimatorStateInfo(0).fullPathHash, 0, 0f);
             }
         }
+
+        // Réactive les interactions XR
+        ToggleXRInteractions(true);
     }
 
     void OnQuitterClick()
@@ -68,5 +78,19 @@ public class MenuVR : MonoBehaviour
 
         if (menuPanel != null)
             menuPanel.SetActive(true);
+
+        // Bloque à nouveau les interactions
+        ToggleXRInteractions(false);
+    }
+
+    private void ToggleXRInteractions(bool state)
+    {
+        // Active ou désactive tout le bloc d'interaction Meta
+        if(ovrInteractionComprehensive != null)
+            ovrInteractionComprehensive.SetActive(state);
+
+        // Active ou désactive le locomotor
+        if (locomotor != null)
+            locomotor.SetActive(state);
     }
 }

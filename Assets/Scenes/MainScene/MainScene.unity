@@ -615,6 +615,8 @@ MonoBehaviour:
   welcomeText: {fileID: 905086030}
   boutonJouer: {fileID: 1801849814}
   boutonQuitter: {fileID: 1272154636}
+  ovrInteractionComprehensive: {fileID: 813201374}
+  locomotor: {fileID: 749933983}
 --- !u!1 &383845619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,6 +1096,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 735702574}
   m_CullTransparentMesh: 1
+--- !u!1 &749933983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2598972000227008391, guid: cfb0b1c1dc36eab43ab2648ff31fa56e, type: 3}
+  m_PrefabInstance: {fileID: 2982065992254396563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &757165262 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6239493811214720765, guid: 0aac4a6d7739aa840affb1a50b59d70b, type: 3}
@@ -1123,6 +1130,11 @@ MonoBehaviour:
     m_Bits: 4294967295
   pointer: {fileID: 0}
   sortOrder: 0
+--- !u!1 &813201374 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3146319554650299648, guid: cfb0b1c1dc36eab43ab2648ff31fa56e, type: 3}
+  m_PrefabInstance: {fileID: 2982065992254396563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &905086030 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3603049863440659430, guid: 0aac4a6d7739aa840affb1a50b59d70b, type: 3}
@@ -1165,7 +1177,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -640, y: -400}
+  m_SizeDelta: {x: -700, y: -400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &953520024
 MonoBehaviour:
