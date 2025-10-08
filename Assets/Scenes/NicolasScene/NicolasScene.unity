@@ -550,12 +550,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4713c22622a0bb44ba9159e724b68985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookTriggerSound
-  playerCamera: {fileID: 2982065992254396564}
-  targetPoint: {fileID: 0}
-  audioSource: {fileID: 0}
-  angleThreshold: 15
-  isHeld: 0
-  hasPlayed: 0
 --- !u!1 &1513270132 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4509146758896377476, guid: cfb0b1c1dc36eab43ab2648ff31fa56e, type: 3}
@@ -860,12 +854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4713c22622a0bb44ba9159e724b68985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookTriggerSound
-  playerCamera: {fileID: 2982065992254396564}
-  targetPoint: {fileID: 0}
-  audioSource: {fileID: 0}
-  angleThreshold: 15
-  isHeld: 0
-  hasPlayed: 0
 --- !u!1 &2132031445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6361395139340998873, guid: cfb0b1c1dc36eab43ab2648ff31fa56e, type: 3}
@@ -1290,12 +1278,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4713c22622a0bb44ba9159e724b68985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LookTriggerSound
-  playerCamera: {fileID: 2982065992254396564}
-  targetPoint: {fileID: 0}
-  audioSource: {fileID: 0}
-  angleThreshold: 15
-  isHeld: 0
-  hasPlayed: 0
 --- !u!1001 &6177250044463895785
 PrefabInstance:
   m_ObjectHideFlags: 0
