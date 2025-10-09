@@ -6,18 +6,22 @@ using Oculus.Interaction;
 public class SoundWhenWandPointsAtCrystal : MonoBehaviour
 {
     [Header("Réglages")]
-    [Tooltip("Le point de référence de la baguette, par exemple l’extrémité avant du modèle (Empty GameObject).")]
-    public Transform wandTip;                // le bout de la baguette magique
-    [Tooltip("Le tag utilisé pour les cristaux dans la scène.")]
-    public string crystalTag = "Crystal";    // tag des cristaux
-    [Tooltip("Tolérance angulaire en degrés.")]
-    public float angleThreshold = 15f;       // angle d'acceptation
-    [Tooltip("Ignore la différence de hauteur entre la baguette et les cristaux.")]
-    public bool ignoreHeight = true;         // optionnel : ignorer la hauteur
+    public Transform wandTip;
+    public string crystalTag = "Crystal";
+    public float angleThreshold = 15f;
+    public bool ignoreHeight = true;
 
+    [Header("Sphère lumineuse")]
+    public GameObject pulseSpherePrefab;   // prefab d'une sphère semi-transparente
+    public float pulseAmplitude = 0.1f;    // variation de scale
+    public float pulseSpeed = 3f;          // vitesse de pulsation
+    public float maxScale = 0.3f;          // scale max de la sphère
+
+    private GameObject pulseSphereInstance;
     private AudioSource audioSource;
     private Grabbable grabbable;
     private bool isHeld = false;
+    private float baseScale;
 
     private void Awake()
     {
@@ -27,6 +31,15 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         audioSource.playOnAwake = false;
         audioSource.loop = true;
         audioSource.Stop();
+
+        // Crée la sphère pulsante en tant qu'enfant de wandTip
+        if (pulseSpherePrefab != null && wandTip != null)
+        {
+            pulseSphereInstance = Instantiate(pulseSpherePrefab, wandTip);
+            pulseSphereInstance.transform.localPosition = Vector3.zero;
+            pulseSphereInstance.transform.localScale = Vector3.zero;
+            baseScale = maxScale * 0.5f;
+        }
     }
 
     private void OnEnable()
@@ -37,6 +50,8 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
     private void OnDisable()
     {
         grabbable.WhenPointerEventRaised -= OnPointerEvent;
+        if (pulseSphereInstance != null)
+            pulseSphereInstance.SetActive(false);
     }
 
     private void OnPointerEvent(PointerEvent evt)
@@ -48,19 +63,17 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         else if (evt.Type == PointerEventType.Unselect)
         {
             isHeld = false;
-            if (audioSource.isPlaying)
-                audioSource.Stop();
+            if (audioSource.isPlaying) audioSource.Stop();
+            if (pulseSphereInstance != null)
+                pulseSphereInstance.SetActive(false);
         }
     }
 
     private void Update()
     {
-        if (!isHeld || wandTip == null)
-            return;
+        if (!isHeld || wandTip == null) return;
 
-        // direction du "faisceau" de la baguette magique
         Vector3 wandDir = wandTip.forward;
-
         GameObject[] allCrystals = GameObject.FindGameObjectsWithTag(crystalTag);
         bool foundAlignedCrystal = false;
 
@@ -68,7 +81,7 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         {
             if (crystal == this.gameObject) continue;
 
-            Vector3 toCrystal = (crystal.transform.position - wandTip.position);
+            Vector3 toCrystal = crystal.transform.position - wandTip.position;
 
             if (ignoreHeight)
             {
@@ -88,15 +101,25 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
             }
         }
 
+        // Son
         if (foundAlignedCrystal)
         {
-            if (!audioSource.isPlaying)
-                audioSource.Play();
+            if (!audioSource.isPlaying) audioSource.Play();
         }
         else
         {
-            if (audioSource.isPlaying)
-                audioSource.Stop();
+            if (audioSource.isPlaying) audioSource.Stop();
+        }
+
+        // Sphère pulsante
+        if (pulseSphereInstance != null)
+        {
+            pulseSphereInstance.SetActive(foundAlignedCrystal);
+            if (foundAlignedCrystal)
+            {
+                float scale = baseScale + Mathf.Sin(Time.time * pulseSpeed) * pulseAmplitude;
+                pulseSphereInstance.transform.localScale = Vector3.one * Mathf.Clamp(scale, 0f, maxScale);
+            }
         }
     }
 }
