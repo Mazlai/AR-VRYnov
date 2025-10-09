@@ -12,17 +12,10 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
     public bool ignoreHeight = true;
 
     [Header("Sphère lumineuse")]
-<<<<<<< HEAD
-    public GameObject pulseSpherePrefab;   // prefab d'une sphère semi-transparente
-    public float pulseAmplitude = 0.1f;    // variation de scale
-    public float pulseSpeed = 3f;          // vitesse de pulsation
-    public float maxScale = 0.3f;          // scale max de la sphère
-=======
     public GameObject pulseSpherePrefab;
     public float pulseAmplitude = 0.1f;
     public float pulseSpeed = 3f;
     public float maxScale = 0.3f;
->>>>>>> 53bbf6b5720e1121eb29d8e8f3a4ed2dfef1b136
 
     private GameObject pulseSphereInstance;
     private AudioSource audioSource;
@@ -39,20 +32,12 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         audioSource.loop = true;
         audioSource.Stop();
 
-<<<<<<< HEAD
-        // Crée la sphère pulsante en tant qu'enfant de wandTip
-=======
->>>>>>> 53bbf6b5720e1121eb29d8e8f3a4ed2dfef1b136
         if (pulseSpherePrefab != null && wandTip != null)
         {
             pulseSphereInstance = Instantiate(pulseSpherePrefab, wandTip);
             pulseSphereInstance.transform.localPosition = Vector3.zero;
             pulseSphereInstance.transform.localScale = Vector3.zero;
-<<<<<<< HEAD
             pulseSphereInstance.SetActive(false);
-=======
-            pulseSphereInstance.SetActive(false); // désactive au départ
->>>>>>> 53bbf6b5720e1121eb29d8e8f3a4ed2dfef1b136
             baseScale = maxScale * 0.5f;
         }
     }
@@ -78,11 +63,8 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         else if (evt.Type == PointerEventType.Unselect)
         {
             isHeld = false;
-<<<<<<< HEAD
+
             if (audioSource.isPlaying) audioSource.Stop();
-=======
-            audioSource.Stop();
->>>>>>> 53bbf6b5720e1121eb29d8e8f3a4ed2dfef1b136
             if (pulseSphereInstance != null)
                 pulseSphereInstance.SetActive(false);
         }
@@ -120,11 +102,7 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
             }
         }
 
-<<<<<<< HEAD
         // Son
-=======
-        // Gestion du son
->>>>>>> 53bbf6b5720e1121eb29d8e8f3a4ed2dfef1b136
         if (foundAlignedCrystal)
         {
             if (!audioSource.isPlaying) audioSource.Play();
@@ -134,11 +112,7 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
             if (audioSource.isPlaying) audioSource.Stop();
         }
 
-<<<<<<< HEAD
         // Sphère pulsante
-=======
-        // Gestion de la sphère lumineuse
->>>>>>> 53bbf6b5720e1121eb29d8e8f3a4ed2dfef1b136
         if (pulseSphereInstance != null)
         {
             if (foundAlignedCrystal)
