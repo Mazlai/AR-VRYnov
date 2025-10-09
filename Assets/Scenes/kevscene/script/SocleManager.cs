@@ -7,8 +7,20 @@ public class SocleManager : MonoBehaviour
 {
     public static SocleManager Instance;
     
+    public GameObject porte;
+    public Vector3 positionApparition = new Vector3(0, 0, 10);
+    public float vitesseApparition = 2f;
+    
+    // Sons
+    public AudioClip sonCinematic; // Son cinématique/dramatique
+    public AudioClip sonBuild; // Son de construction
+    
     private List<socle> tousLesSocles = new List<socle>();
     private bool tousActivesAvant = false;
+    private Vector3 positionCachee;
+    private bool porteApparue = false;
+    private AudioSource audioSource1;
+    private AudioSource audioSource2;
     
     void Awake()
     {
@@ -20,6 +32,35 @@ public class SocleManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+        
+        // Créer 2 AudioSources pour jouer 2 sons en même temps
+        audioSource1 = gameObject.AddComponent<AudioSource>();
+        audioSource2 = gameObject.AddComponent<AudioSource>();
+    }
+    
+    void Start()
+    {
+        if (porte != null)
+        {
+            // Sauvegarder la position d'apparition actuelle de la porte
+            positionApparition = porte.transform.position;
+            // Cacher la porte au début (sous le sol)
+            positionCachee = positionApparition - new Vector3(0, 10, 0);
+            porte.transform.position = positionCachee;
+        }
+    }
+    
+    void Update()
+    {
+        // Animation de la porte qui monte
+        if (porteApparue && porte != null)
+        {
+            porte.transform.position = Vector3.Lerp(
+                porte.transform.position, 
+                positionApparition, 
+                Time.deltaTime * vitesseApparition
+            );
         }
     }
     
@@ -62,37 +103,6 @@ public class SocleManager : MonoBehaviour
         tousActivesAvant = tousActifs;
     }
     
-    [Header("Porte à faire apparaître")]
-    public GameObject porte; // Glisse ta porte ici dans l'Inspector
-    public Vector3 positionApparition = new Vector3(0, 0, 10);
-    public float vitesseApparition = 2f;
-    
-    private Vector3 positionCachee;
-    private bool porteApparue = false;
-    
-    void Start()
-    {
-        if (porte != null)
-        {
-            // Cacher la porte au début (sous le sol par exemple)
-            positionCachee = porte.transform.position - new Vector3(0, 10, 0);
-            porte.transform.position = positionCachee;
-        }
-    }
-    
-    void Update()
-    {
-        // Animation de la porte qui monte
-        if (porteApparue && porte != null)
-        {
-            porte.transform.position = Vector3.Lerp(
-                porte.transform.position, 
-                positionApparition, 
-                Time.deltaTime * vitesseApparition
-            );
-        }
-    }
-    
     private void TousLesSoclesActifs()
     {
         print("🎉 TOUS LES SOCLES ONT UN OBJET DESSUS ! 🎉");
@@ -101,6 +111,19 @@ public class SocleManager : MonoBehaviour
         {
             print("🚪 La porte apparaît !");
             porteApparue = true;
+            
+            // Jouer les 2 sons en même temps
+            if (sonCinematic != null && audioSource1 != null)
+            {
+                audioSource1.PlayOneShot(sonCinematic);
+                print("🎬 Son cinématique joué !");
+            }
+            
+            if (sonBuild != null && audioSource2 != null)
+            {
+                audioSource2.PlayOneShot(sonBuild);
+                print("🔨 Son de construction joué !");
+            }
         }
         else if (porte == null)
         {

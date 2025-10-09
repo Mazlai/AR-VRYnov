@@ -1,22 +1,43 @@
-// ========================================
-// Script 1: socle.cs - ¿ mettre sur CHAQUE socle (cube)
-// ========================================
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class socle : MonoBehaviour
 {
     private Renderer socleRenderer;
+    private Material socleMaterial;
     private Color couleurOriginale;
     private Color couleurDoree = new Color(1f, 0.84f, 0f);
     private bool objetSurSocle = false;
-    private float vitesseFlash = 3f;
+    private float vitesseFlash = 2f;
+    private float intensiteLumiereMax = 5f;
+    
+    private Light lumiere;
+    
+    // Son
+    public AudioClip sonActivation; // Son quand objet pos√©
+    public AudioClip sonDesactivation; // Son quand objet retir√© (optionnel)
+    private AudioSource audioSource;
     
     void Start()
     {
         socleRenderer = GetComponent<Renderer>();
-        couleurOriginale = socleRenderer.material.color;
+        socleMaterial = socleRenderer.material;
+        couleurOriginale = socleMaterial.color;
         
-        // S'enregistrer auprËs du manager
+        // Ajouter un AudioSource pour jouer les sons
+        audioSource = gameObject.AddComponent<AudioSource>();
+        
+        // Cr√©er une vraie lumi√®re Unity
+        GameObject lightObj = new GameObject("LumiereSocle");
+        lightObj.transform.parent = transform;
+        lightObj.transform.localPosition = Vector3.up * 0.5f;
+        
+        lumiere = lightObj.AddComponent<Light>();
+        lumiere.type = LightType.Point;
+        lumiere.color = couleurDoree;
+        lumiere.range = 10f;
+        lumiere.intensity = 0f;
+        
+        // S'enregistrer aupr√®s du manager
         if (SocleManager.Instance != null)
         {
             SocleManager.Instance.EnregistrerSocle(this);
@@ -25,17 +46,25 @@ public class socle : MonoBehaviour
     
     void Update()
     {
-        if (objetSurSocle)
+        if (objetSurSocle && lumiere != null)
         {
             float lerp = Mathf.PingPong(Time.time * vitesseFlash, 1f);
-            socleRenderer.material.color = Color.Lerp(couleurOriginale, couleurDoree, lerp);
+            lumiere.intensity = Mathf.Lerp(2f, intensiteLumiereMax, lerp);
+            socleMaterial.color = Color.Lerp(couleurOriginale, couleurDoree, lerp * 0.5f);
         }
     }
     
     private void OnCollisionEnter(Collision collision)
     {
-        print("Objet posÈ sur: " + gameObject.name);
+        print("Objet pos√© sur: " + gameObject.name);
         objetSurSocle = true;
+        
+        // Jouer le son d'activation
+        if (sonActivation != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(sonActivation);
+            print("üîä Son d'activation jou√© !");
+        }
         
         if (SocleManager.Instance != null)
         {
@@ -45,9 +74,23 @@ public class socle : MonoBehaviour
     
     private void OnCollisionExit(Collision collision)
     {
-        print("Objet retirÈ de: " + gameObject.name);
+        print("Objet retir√© de: " + gameObject.name);
         objetSurSocle = false;
-        socleRenderer.material.color = couleurOriginale;
+        
+        // Jouer le son de d√©sactivation (optionnel)
+        if (sonDesactivation != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(sonDesactivation);
+        }
+        
+        // √âteindre la lumi√®re
+        if (lumiere != null)
+        {
+            lumiere.intensity = 0f;
+        }
+        
+        // Remettre la couleur d'origine
+        socleMaterial.color = couleurOriginale;
         
         if (SocleManager.Instance != null)
         {
@@ -55,7 +98,6 @@ public class socle : MonoBehaviour
         }
     }
     
-    // M…THODE IMPORTANTE : permet au Manager de vÈrifier l'Ètat
     public bool AObjetDessus()
     {
         return objetSurSocle;
