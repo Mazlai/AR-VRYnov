@@ -38,6 +38,7 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
             pulseSphereInstance = Instantiate(pulseSpherePrefab, wandTip);
             pulseSphereInstance.transform.localPosition = Vector3.zero;
             pulseSphereInstance.transform.localScale = Vector3.zero;
+            pulseSphereInstance.SetActive(false);
             baseScale = maxScale * 0.5f;
         }
     }
@@ -114,11 +115,18 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         // Sphère pulsante
         if (pulseSphereInstance != null)
         {
-            pulseSphereInstance.SetActive(foundAlignedCrystal);
             if (foundAlignedCrystal)
             {
+                if (!pulseSphereInstance.activeSelf)
+                    pulseSphereInstance.SetActive(true);
+
                 float scale = baseScale + Mathf.Sin(Time.time * pulseSpeed) * pulseAmplitude;
                 pulseSphereInstance.transform.localScale = Vector3.one * Mathf.Clamp(scale, 0f, maxScale);
+            }
+            else
+            {
+                if (pulseSphereInstance.activeSelf)
+                    pulseSphereInstance.SetActive(false);
             }
         }
     }
