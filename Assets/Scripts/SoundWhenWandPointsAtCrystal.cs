@@ -12,10 +12,10 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
     public bool ignoreHeight = true;
 
     [Header("Sphère lumineuse")]
-    public GameObject pulseSpherePrefab;   // prefab d'une sphère semi-transparente
-    public float pulseAmplitude = 0.1f;    // variation de scale
-    public float pulseSpeed = 3f;          // vitesse de pulsation
-    public float maxScale = 0.3f;          // scale max de la sphère
+    public GameObject pulseSpherePrefab;
+    public float pulseAmplitude = 0.1f;
+    public float pulseSpeed = 3f;
+    public float maxScale = 0.3f;
 
     private GameObject pulseSphereInstance;
     private AudioSource audioSource;
@@ -32,13 +32,12 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         audioSource.loop = true;
         audioSource.Stop();
 
-        // Crée la sphère pulsante en tant qu'enfant de wandTip
         if (pulseSpherePrefab != null && wandTip != null)
         {
             pulseSphereInstance = Instantiate(pulseSpherePrefab, wandTip);
             pulseSphereInstance.transform.localPosition = Vector3.zero;
             pulseSphereInstance.transform.localScale = Vector3.zero;
-            pulseSphereInstance.SetActive(false);
+            pulseSphereInstance.SetActive(false); // désactive au départ
             baseScale = maxScale * 0.5f;
         }
     }
@@ -64,7 +63,7 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         else if (evt.Type == PointerEventType.Unselect)
         {
             isHeld = false;
-            if (audioSource.isPlaying) audioSource.Stop();
+            audioSource.Stop();
             if (pulseSphereInstance != null)
                 pulseSphereInstance.SetActive(false);
         }
@@ -102,7 +101,7 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
             }
         }
 
-        // Son
+        // Gestion du son
         if (foundAlignedCrystal)
         {
             if (!audioSource.isPlaying) audioSource.Play();
@@ -112,7 +111,7 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
             if (audioSource.isPlaying) audioSource.Stop();
         }
 
-        // Sphère pulsante
+        // Gestion de la sphère lumineuse
         if (pulseSphereInstance != null)
         {
             if (foundAlignedCrystal)
