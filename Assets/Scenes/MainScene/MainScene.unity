@@ -461,7 +461,8 @@ PrefabInstance:
       propertyPath: instanceId
       value: b74e3977-21c7-448d-a863-5da76abc7b59
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6884807725396063536, guid: 9594ae18e5b80c54d81565a883fb2452, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -990,7 +991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Oculus.VR::UnityEngine.EventSystems.OVRInputModule
   m_SendPointerHoverToParent: 1
-  rayTransform: {fileID: 0}
+  rayTransform: {fileID: 2132031451}
   m_Cursor: {fileID: 0}
   joyPadClickButton: 1
   gazeClickKey: 32
@@ -1826,7 +1827,8 @@ PrefabInstance:
       propertyPath: instanceId
       value: 7735f466-9a73-4da4-922f-bd3d44ceca55
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6884807725396063536, guid: 9594ae18e5b80c54d81565a883fb2452, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2129,7 +2131,7 @@ PrefabInstance:
     - target: {fileID: 2268974868930121724, guid: 9594ae18e5b80c54d81565a883fb2452, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: c3766e350542b634fa48dc3b216dd051, type: 2}
+      objectReference: {fileID: 2100000, guid: 965a6953c50ba364487e092dcc31317c, type: 2}
     - target: {fileID: 6389392989235744588, guid: 9594ae18e5b80c54d81565a883fb2452, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.5
@@ -2194,7 +2196,8 @@ PrefabInstance:
       propertyPath: instanceId
       value: 21896450-3c7e-49f1-a3ad-b7e2008f4dd9
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6884807725396063536, guid: 9594ae18e5b80c54d81565a883fb2452, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

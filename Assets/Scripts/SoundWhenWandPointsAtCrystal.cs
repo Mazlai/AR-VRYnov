@@ -11,13 +11,6 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
     public float angleThreshold = 15f;
     public bool ignoreHeight = true;
 
-    [Header("Sphère lumineuse")]
-    public GameObject pulseSpherePrefab;
-    public float pulseAmplitude = 0.1f;
-    public float pulseSpeed = 3f;
-    public float maxScale = 0.3f;
-
-    private GameObject pulseSphereInstance;
     private AudioSource audioSource;
     private Grabbable grabbable;
     private bool isHeld = false;
@@ -31,15 +24,6 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         audioSource.playOnAwake = false;
         audioSource.loop = true;
         audioSource.Stop();
-
-        if (pulseSpherePrefab != null && wandTip != null)
-        {
-            pulseSphereInstance = Instantiate(pulseSpherePrefab, wandTip);
-            pulseSphereInstance.transform.localPosition = Vector3.zero;
-            pulseSphereInstance.transform.localScale = Vector3.zero;
-            pulseSphereInstance.SetActive(false);
-            baseScale = maxScale * 0.5f;
-        }
     }
 
     private void OnEnable()
@@ -50,8 +34,6 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
     private void OnDisable()
     {
         grabbable.WhenPointerEventRaised -= OnPointerEvent;
-        if (pulseSphereInstance != null)
-            pulseSphereInstance.SetActive(false);
     }
 
     private void OnPointerEvent(PointerEvent evt)
@@ -65,8 +47,6 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
             isHeld = false;
 
             if (audioSource.isPlaying) audioSource.Stop();
-            if (pulseSphereInstance != null)
-                pulseSphereInstance.SetActive(false);
         }
     }
 
@@ -110,24 +90,6 @@ public class SoundWhenWandPointsAtCrystal : MonoBehaviour
         else
         {
             if (audioSource.isPlaying) audioSource.Stop();
-        }
-
-        // Sphère pulsante
-        if (pulseSphereInstance != null)
-        {
-            if (foundAlignedCrystal)
-            {
-                if (!pulseSphereInstance.activeSelf)
-                    pulseSphereInstance.SetActive(true);
-
-                float scale = baseScale + Mathf.Sin(Time.time * pulseSpeed) * pulseAmplitude;
-                pulseSphereInstance.transform.localScale = Vector3.one * Mathf.Clamp(scale, 0f, maxScale);
-            }
-            else
-            {
-                if (pulseSphereInstance.activeSelf)
-                    pulseSphereInstance.SetActive(false);
-            }
         }
     }
 }
