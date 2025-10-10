@@ -7,7 +7,6 @@ public class InteractWithBook : MonoBehaviour
     [Header("Références")]
     public GameObject closedBook;
     public GameObject openedBook;
-    public GameObject textCanvas;
 
     private Grabbable grabbable;
     private bool isOpen = false;
@@ -43,7 +42,6 @@ public class InteractWithBook : MonoBehaviour
         // États initiaux
         if (closedBook) closedBook.SetActive(true);
         if (openedBook) openedBook.SetActive(false);
-        if (textCanvas) textCanvas.SetActive(false);
     }
 
     void OpenBook()
@@ -53,7 +51,6 @@ public class InteractWithBook : MonoBehaviour
         isOpen = true;
         if (closedBook) closedBook.SetActive(false);
         if (openedBook) openedBook.SetActive(true);
-        if (textCanvas) textCanvas.SetActive(true);
     }
 
     void CloseBook()
@@ -63,6 +60,5 @@ public class InteractWithBook : MonoBehaviour
         isOpen = false;
         if (closedBook) closedBook.SetActive(true);
         if (openedBook) openedBook.SetActive(false);
-        if (textCanvas) textCanvas.SetActive(false);
     }
 }

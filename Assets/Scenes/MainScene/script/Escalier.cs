@@ -71,14 +71,12 @@ public class Escalier : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        // Même logique que les socles
-        print("🔍 COLLISION DÉTECTÉE avec : " + collision.gameObject.name);
-
-        if (!porteApparue)
+        // Vérifier si c'est le joueur
+        if (other.CompareTag("Player") && !porteApparue)
         {
-            print("✨ Objet sur l'escalier : " + collision.gameObject.name);
+            print("✨ Le joueur est sur l'escalier !");
 
             if (porteTP != null)
             {
