@@ -56,45 +56,48 @@ public class socle : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print("Objet posé sur: " + gameObject.name);
-        objetSurSocle = true;
-
-        // Jouer le son d'activation
-        if (sonActivation != null && audioSource != null)
+        if (collision.gameObject.CompareTag("Crystal"))
         {
-            audioSource.PlayOneShot(sonActivation);
-            print("🔊 Son d'activation joué !");
-        }
+            print("🔹 Crystal posé sur: " + gameObject.name);
+            objetSurSocle = true;
 
-        if (SocleManager.Instance != null)
-        {
-            SocleManager.Instance.VerifierSocles();
+            if (sonActivation != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonActivation);
+                print("🔊 Son d'activation joué !");
+            }
+
+            if (SocleManager.Instance != null)
+            {
+                SocleManager.Instance.VerifierSocles();
+            }
         }
     }
 
+
     private void OnCollisionExit(Collision collision)
     {
-        print("Objet retiré de: " + gameObject.name);
-        objetSurSocle = false;
-
-        // Jouer le son de désactivation (optionnel)
-        if (sonDesactivation != null && audioSource != null)
+        if (collision.gameObject.CompareTag("Crystal"))
         {
-            audioSource.PlayOneShot(sonDesactivation);
-        }
+            print("🔸 Crystal retiré de: " + gameObject.name);
+            objetSurSocle = false;
 
-        // Éteindre la lumière
-        if (lumiere != null)
-        {
-            lumiere.intensity = 0f;
-        }
+            if (sonDesactivation != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonDesactivation);
+            }
 
-        // Remettre la couleur d'origine
-        socleMaterial.color = couleurOriginale;
+            if (lumiere != null)
+            {
+                lumiere.intensity = 0f;
+            }
 
-        if (SocleManager.Instance != null)
-        {
-            SocleManager.Instance.VerifierSocles();
+            socleMaterial.color = couleurOriginale;
+
+            if (SocleManager.Instance != null)
+            {
+                SocleManager.Instance.VerifierSocles();
+            }
         }
     }
 
